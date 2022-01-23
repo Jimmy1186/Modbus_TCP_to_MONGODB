@@ -21,9 +21,9 @@ const options = {
 };
 const dbConnect = require("./utils/dbConnection");
 
-let DT100,
-  DT200,
-  DT300,
+let DT100 = [],
+  DT200 = [],
+  DT300 = [],
   POND_1,
   POND_2,
   POND_3,
@@ -36,50 +36,50 @@ let DT100,
   POND_10;
 const client = new Modbus.client.TCP(socket);
 
+
+
 socket.on("connect", function () {
   async function getData() {
     for (let i = 1; i < 4; i++) {
-      client
+      await client
         .readHoldingRegisters(100 * i, 100)
         .then((resp) => {
-          DT_ARRAY = resp.response._body.valuesAsArray;
-          if (i === 1) DT100 = DT_ARRAY;
-          if (i === 2) DT200 = DT_ARRAY;
-          if (i === 3) DT300 = DT_ARRAY;
-
-          
+          if (i === 1) {
+            DT100 = resp.response._body.valuesAsArray;
+            POND_1 = DT100.slice(0, 14);
+          }
+          if (i === 2) {
+            DT200 = resp.response._body.valuesAsArray;
+            POND_2 = DT200.slice(0, 14);
+            POND_3 = DT200.slice(20, 34);
+            POND_4 = DT200.slice(40, 54);
+            POND_5 = DT200.slice(60, 74);
+            POND_6 = DT200.slice(80, 94);
+          }
+          if (i === 3) {
+            DT300 = resp.response._body.valuesAsArray;
+            POND_7 = DT300.slice(0, 14);
+            POND_8 = DT300.slice(20, 34);
+            POND_9 = DT300.slice(40, 54);
+            POND_10 = DT300.slice(60, 74);
+          }
         })
         .catch((err) => {
           console.log(err);
         });
     }
 
-    //   ----DT100-----
-    POND_1 = DT100.slice(0, 14);
-
-    //   ----DT200-----
-    POND_2 = DT200.slice(0, 14);
-    POND_3 = DT200.slice(20, 34);
-    POND_4 = DT200.slice(40, 54);
-    POND_5 = DT200.slice(60, 74);
-    // ----DT300-----
-    POND_7 = DT300.slice(0, 14);
-    POND_8 = DT300.slice(20, 34);
-    POND_9 = DT300.slice(40, 54);
-    POND_10 = DT300.slice(60, 74);
-
     await dbConnect();
- 
-      POND_1_COLLECTION.create({
-        DO: POND_1[0],
-        S: POND_1[2],
-        TEMP: POND_1[4],
-        ORP: POND_1[6],
-        PH: POND_1[8],
-        WL: POND_1[10],
-        IO: POND_1[12],
-      });
-    
+
+    POND_1_COLLECTION.create({
+      DO: POND_1[0],
+      S: POND_1[2],
+      TEMP: POND_1[4],
+      ORP: POND_1[6],
+      PH: POND_1[8],
+      WL: POND_1[10],
+      IO: POND_1[12],
+    });
 
     POND_2_COLLECTION.create({
       DO: POND_2[0],
@@ -162,8 +162,10 @@ socket.on("connect", function () {
       WL: POND_10[10],
       IO: POND_10[12],
     });
+    console.log(`Data success inert at ${Date(Date.now())}`)
   }
-  console.log(`寫入完成`);
+  console.log("-------------------------- START INSERT TO DATABASE ... ... ---------------------------------");
+
   setInterval(getData, 2000);
 });
 
