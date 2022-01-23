@@ -1,5 +1,5 @@
 const mongoose = require("mongoose")
-const URL = 'mongodb://localhost:27017/shrimp';
+const URL = 'mongodb://localhost:27017/shrimp';//the database name will be "shrimp"
 const connection = {};
 
 async function dbConnect() {
