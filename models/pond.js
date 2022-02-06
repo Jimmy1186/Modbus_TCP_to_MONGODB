@@ -7,27 +7,27 @@ const pondSchema = new mongoose.Schema({
   },
   S: {
     type: Number,
-    set: (value) => Math.abs(value * 0.001).toFixed(2),
+    set: (value) => value.toFixed(2),
   },
   TEMP: {
     type: Number,
-    set: (value) => Math.abs(value * 0.001).toFixed(2),
+    set: (value) => value.toFixed(2),
   },
   ORP: {
     type: Number,
-    set: (value) => Math.abs(value * 0.01).toFixed(2),
+    set: (value) => value.toFixed(2),
   },
   PH: {
     type: Number,
-    set: (value) => Math.abs(value * 0.0001).toFixed(2),
+    set: (value) => value.toFixed(2),
   },
   WL: {
     type: Number,
-    set: (value) => Math.abs(value * 0.00005).toFixed(2),
+    set: (value) => value.toFixed(2),
   },
   IO: {
     type: Number,
-    set: (value) => Math.abs(value*0.01).toFixed(2),
+    set: (value) => Math.abs(value * 0.01).toFixed(2),
   },
 });
 
@@ -42,7 +42,6 @@ const POND_8_COLLECTION = mongoose.model("pond_8", pondSchema);
 const POND_9_COLLECTION = mongoose.model("pond_9", pondSchema);
 const POND_10_COLLECTION = mongoose.model("pond_10", pondSchema);
 
-
 module.exports = {
   POND_1_COLLECTION,
   POND_2_COLLECTION,
@@ -53,5 +52,5 @@ module.exports = {
   POND_7_COLLECTION,
   POND_8_COLLECTION,
   POND_9_COLLECTION,
-  POND_10_COLLECTION
+  POND_10_COLLECTION,
 };
