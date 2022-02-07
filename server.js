@@ -32,12 +32,13 @@ socket.on("connect", function () {
     }
 
     console.log(
-      DT100.readFloatBE(2),
+      DT100.readInt16BE(0),
       DT100.readFloatBE(6),
       DT100.readFloatBE(10),
       DT100.readFloatBE(14),
       DT100.readFloatBE(18),
       DT100.readFloatBE(22),
+      DT100.readInt16BE(24),
 
 
     );
