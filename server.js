@@ -2,7 +2,7 @@ const Modbus = require("jsmodbus");
 const net = require("net");
 const socket = new net.Socket();
 
-const { POND_1_COLLECTION } = require("./models/pond");
+const { POND_1_COLLECTION,POND_7_COLLECTION } = require("./models/pond");
 
 const options = {
   host: "127.0.0.1",
@@ -31,29 +31,27 @@ socket.on("connect", function () {
         });
     }
 
-    console.log(
-      DT100.readInt16BE(0),
-      DT100.readFloatBE(6),
-      DT100.readFloatBE(10),
-      DT100.readFloatBE(14),
-      DT100.readFloatBE(18),
-      DT100.readFloatBE(22),
-      DT100.readInt16BE(24),
+    // console.log(
+    //   DT100.readInt16BE(0),
+    //   DT100.readFloatBE(6),
+    //   DT100.readFloatBE(10),
+    //   DT100.readFloatBE(14),
+    //   DT100.readFloatBE(18),
+    //   DT100.readFloatBE(22),
+    //   DT100.readInt16BE(24),
+    // );
 
 
-    );
-
-
-    // await dbConnect();
-    // POND_1_COLLECTION.create({
-    //   DO: DT100.readInt16BE(0),
-    //   S: DT100.readInt16BE(2),
-    //   TEMP: DT100.readInt16BE(4),
-    //   ORP: DT100.readInt16BE(6),
-    //   PH: DT100.readInt16BE(8),
-    //   WL: DT100.readInt16BE(10),
-    //   IO: DT100.readInt16BE(20),
-    // });
+    await dbConnect();
+    POND_7_COLLECTION.create({
+      DO: DT100.readInt16BE(0),
+      S: DT100.readInt16BE(1),
+      TEMP: DT100.readInt16BE(2),
+      ORP: DT100.readInt16BE(3),
+      PH: DT100.readInt16BE(4),
+      WL: DT100.readInt16BE(5),
+      IO: DT100.readInt16BE(6),
+    });
   };
 
   setInterval(getData, 2000);
