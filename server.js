@@ -2,7 +2,7 @@ const Modbus = require("jsmodbus");
 const net = require("net");
 const socket = new net.Socket();
 
-const { POND_1_COLLECTION,POND_7_COLLECTION } = require("./models/pond");
+const { POND_8_COLLECTION,POND_9_COLLECTION ,POND_10_COLLECTION } = require("./models/pond");
 
 const options = {
   host: "127.0.0.1",
@@ -43,7 +43,25 @@ socket.on("connect", function () {
 
 
     await dbConnect();
-    POND_7_COLLECTION.create({
+    POND_8_COLLECTION.create({
+      DO: DT100.readInt16BE(0),
+      S: DT100.readInt16BE(1),
+      TEMP: DT100.readInt16BE(2),
+      ORP: DT100.readInt16BE(3),
+      PH: DT100.readInt16BE(4),
+      WL: DT100.readInt16BE(5),
+      IO: DT100.readInt16BE(6),
+    });
+    POND_9_COLLECTION.create({
+      DO: DT100.readInt16BE(0),
+      S: DT100.readInt16BE(1),
+      TEMP: DT100.readInt16BE(2),
+      ORP: DT100.readInt16BE(3),
+      PH: DT100.readInt16BE(4),
+      WL: DT100.readInt16BE(5),
+      IO: DT100.readInt16BE(6),
+    });
+    POND_10_COLLECTION.create({
       DO: DT100.readInt16BE(0),
       S: DT100.readInt16BE(1),
       TEMP: DT100.readInt16BE(2),
@@ -54,7 +72,7 @@ socket.on("connect", function () {
     });
   };
 
-  setInterval(getData, 2000);
+  setInterval(getData, 5000);
 });
 
 socket.on("error", console.error);

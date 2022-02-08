@@ -1,3 +1,5 @@
+const { now } = require("moment");
+const moment = require("moment");
 const mongoose = require("mongoose");
 
 const pondSchema = new mongoose.Schema({
@@ -29,6 +31,11 @@ const pondSchema = new mongoose.Schema({
     type: Number,
     set: (value) => Math.abs(value * 0.01).toFixed(2),
   },
+  TIME:{
+    type:String,
+    default:Date.now,
+    set:(value)=> moment(value).format("YYYY-MM-DD h:mm:ss")
+  }
 });
 
 const POND_1_COLLECTION = mongoose.model("pond_1", pondSchema);
