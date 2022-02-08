@@ -31,7 +31,8 @@ const pondSchema = new mongoose.Schema({
   },
   TIME:{
     type:String,
-    default:  moment(new Date()).format("YYYY-MM-DD h:mm:ss")
+    default:Date.now,
+    set:(value)=> moment(value).format("YYYY-MM-DD h:mm:ss")
   }
 });
 
