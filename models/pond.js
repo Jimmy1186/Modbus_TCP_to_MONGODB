@@ -27,8 +27,12 @@ const pondSchema = new mongoose.Schema({
   },
   IO: {
     type: Number,
-    set: (value) => Math.abs(value*0.01).toFixed(2),
+    // set: (value) => Math.abs(value*0.01).toFixed(2),
   },
+  TIME:{
+    type:String,
+    default:  moment(new Date()).format("YYYY-MM-DD h:mm:ss")
+  }
 });
 
 const POND_1_COLLECTION = mongoose.model("pond_1", pondSchema);
